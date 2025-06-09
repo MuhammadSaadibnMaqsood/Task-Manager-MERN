@@ -10,15 +10,15 @@ const createToken = (userid) => jwt.sign({ id: userid }, JWT_SECRET, { expiresIn
 
 // REGISTER USER
 export async function registor(req, res) {
-    const { name, email, pass } = req.body;
+    const { name, email, password } = req.body;
 
     if (!validator.isEmail(email)) {
         return res.status(400).json({ success: false, message: 'Enter valid email' });
     }
-    if (!name || !email || !pass) {
+    if (!name || !email || !password) {
         return res.status(400).json({ success: false, message: 'All fields are required' });
     }
-    if (pass.length < 8) {
+    if (password.length < 8) {
         return res.status(400).json({ success: false, message: 'Password must be at least 8 characters' });
     }
 
@@ -28,7 +28,7 @@ export async function registor(req, res) {
             return res.status(400).json({ success: false, message: 'User already exists' });
         }
 
-        const hashed = await bcrypt.hash(pass, 10);
+        const hashed = await bcrypt.hash(password, 10);
         const user = await userModel.create({ name, email, password: hashed });
         const token = createToken(user._id);
 
@@ -41,9 +41,9 @@ export async function registor(req, res) {
 
 // LOGIN USER
 export async function login(req, res) {
-    const { email, pass } = req.body;
+    const { email, password } = req.body;
 
-    if (!email || !pass) {
+    if (!email || !password) {
         return res.status(400).json({ success: false, message: 'All credentials are required' });
     }
 
@@ -54,7 +54,7 @@ export async function login(req, res) {
             return res.status(400).json({ success: false, message: 'User not found' });
         }
 
-        const match = await bcrypt.compare(pass, user.password);
+        const match = await bcrypt.compare(password, user.password);
 
         if (!match) {
             return res.status(400).json({ success: false, message: 'Wrong password' });

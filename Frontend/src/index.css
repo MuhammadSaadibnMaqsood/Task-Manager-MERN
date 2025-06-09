@@ -1,1 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Poppins&family=Tektur:wght@400..900&display=swap');
+
 @import "tailwindcss";
+/* body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+  color: white;
+  min-height: 77vh; 
+} */
