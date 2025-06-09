@@ -2,10 +2,9 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import Navbar from './Navbar'
 import SideBar from './SideBar'
 import { Outlet } from 'react-router-dom'
-import { Circle, TrendingUp , Zap, Clock } from 'lucide-react'
+import { Circle, TrendingUp, Zap, Clock } from 'lucide-react'
 import axios from 'axios'
 import StateCard from './StateCard'
-// import StateCard from './StateCard' // Assumed correct import path
 
 const Layout = ({ user, onLogout }) => {
   const [tasks, setTasks] = useState([])
@@ -93,11 +92,11 @@ const Layout = ({ user, onLogout }) => {
   )
 
   return (
-    <div className='bg-gray-50 dark:bg-gray-900 min-h-screen mt-24'>
+    <div className='bg-gray-50 dark:bg-gray-900 min-h-screen mt-24 px-2 sm:px-4 '>
       <Navbar user={user} onLogout={onLogout} />
       <SideBar user={user} tasks={tasks} />
 
-      <div className='p-4 md:p-8'>
+      <div className='p-4 sm:p-6 md:p-8'>
         <div className='grid grid-cols-1 xl:grid-cols-3 gap-4 sm:gap-6'>
           <div className='xl:col-span-2 space-y-3 sm:space-y-4'>
             <Outlet context={{ tasks, refreshTasks: fetchTasks }} />
@@ -106,11 +105,11 @@ const Layout = ({ user, onLogout }) => {
           <div className='xl:col-span-1 space-y-4 sm:space-y-6'>
             <div className='bg-white dark:bg-gray-800 rounded-xl p-4 sm:p-5 shadow-sm border'>
               <h3 className='flex items-center gap-2 font-semibold text-gray-800 dark:text-white'>
-                <TrendingUp  className='w-4 h-4 sm:w-5 sm:h-5 text-purple-500' />
+                <TrendingUp className='w-4 h-4 sm:w-5 sm:h-5 text-purple-500' />
                 Task Statistics
               </h3>
 
-              <div className='grid grid-cols-2 gap-3 sm:gap-4 my-4'>
+              <div className='grid grid-cols-2 md:grid-cols-2 gap-3 sm:gap-4 my-4'>
                 <StateCard title='Total Task' value={stats.totalCount} icon={<Circle className='w-4 h-4 text-purple-500' />} />
                 <StateCard title='Completed' value={stats.completedTasks} icon={<Circle className='w-4 h-4 text-green-500' />} />
                 <StateCard title='Pending' value={stats.pendingCount} icon={<Circle className='w-4 h-4 text-fuchsia-500' />} />
@@ -131,7 +130,7 @@ const Layout = ({ user, onLogout }) => {
 
                 <div className='relative pt-1'>
                   <div className='flex items-center gap-1.5'>
-                    <div className='flex-1 h-2 sm:h-3 bg-purple-100 rounded-full overflow-hidden'>
+                    <div className='flex-1 h-2 sm:h-3 bg-purple-100 rounded-full overflow-hidden min-w-[50%]'>
                       <div
                         className='h-full bg-gradient-to-r from-purple-500 to-purple-700 transition-all duration-500'
                         style={{ width: `${stats.completedPercentage}%` }}
@@ -149,7 +148,10 @@ const Layout = ({ user, onLogout }) => {
 
                 <div className='space-y-2'>
                   {tasks.slice(0, 3).map((task) => (
-                    <div key={task._id || task.id} className='hover:bg-purple-50 dark:hover:bg-gray-700 transition duration-200 p-3 rounded flex items-center justify-between'>
+                    <div
+                      key={task._id || task.id}
+                      className='flex flex-wrap items-center justify-between gap-2 p-3 rounded hover:bg-purple-50 dark:hover:bg-gray-700 transition duration-200'
+                    >
                       <div className='flex-1 min-w-0'>
                         <p className='text-sm font-medium text-gray-700 dark:text-gray-200'>
                           {task.createdAt ? new Date(task.createdAt).toLocaleDateString() : 'No Date'}
