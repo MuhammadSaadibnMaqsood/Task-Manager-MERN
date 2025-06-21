@@ -1,9 +1,11 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import Navbar from '../components/Navbar'
 import { ADD_BUTTON, EMPTY_STATE, FILTER_LABELS, FILTER_OPTIONS, FILTER_WRAPPER, HEADER, ICON_WRAPPER, LABEL_CLASS, SELECT_CLASSES, STAT_CARD, STATS, STATS_GRID, TAB_ACTIVE, TAB_BASE, TAB_INACTIVE, TABS_WRAPPER, VALUE_CLASS, WRAPPER } from '../assets/dummy'
-import { CalendarIcon, Filter, HouseIcon } from 'lucide-react'
-import { useOutletContext } from 'react-router-dom'
+import { CalendarIcon, Filter, HouseIcon, Plus } from 'lucide-react'
+import { data, useOutletContext } from 'react-router-dom'
 import TaskItem from '../components/TaskItem'
+import axios from 'axios'
+import { TaskModel } from '../components/TaskModel'
 
 const API_BASE = 'http://localhost:4000/api/task'
 const Dashboard = () => {
@@ -12,13 +14,13 @@ const Dashboard = () => {
   const [selectedTask, setSelectedTask] = useState(null);
   const [filter, setFilter] = useState('all');
   // const { task, refreshTask } = useOutletContext()
-  const [task, setTask] = useState([]);
+  const [task, refreshTask] = useState([]);
 
   useEffect(() => {
     const fetchTasks = async () => {
       const res = await fetch('http://localhost:4000/api/task');
       const data = await res.json();
-      setTask(data);
+      refreshTask(data);
     };
 
     fetchTasks();
@@ -62,6 +64,22 @@ const Dashboard = () => {
     }
 
   }), [task, filter])
+
+  //SAVE TASK 
+
+  const handleSave = useCallback(async (taskData) => {
+    try {
+      if (taskData.id) await axios.put(`${API_BASE}/${taskData.id}/gp`, taskData);
+
+      refreshTask();
+      setShowModel(false);
+      setSelectedTask(null);
+
+    } catch (error) {
+      console.error('Error in saving task', error.response || error.message);
+
+    }
+  }, [refreshTask])
 
   return (
     <div className={`${WRAPPER} ml-60 `}>
@@ -155,11 +173,37 @@ const Dashboard = () => {
             </div>
           ) : (
             filterTask.map(task => (
-              <TaskItem key={task._id || task.id} task={task} />
+              <TaskItem key={task._id || task.id} task={task} onReferesh={refreshTask}
+                showCompletedCheckBox
+                onEdit={() => {
+                  setSelectedTask(task);
+                  setShowModel(true);
+                }} />
             ))
           )}
         </div>
+
+        <div
+          onClick={() => setShowModel(true)}
+          className='hidden md:flex items-center justify-center p-4 border-2 border-dashed border-purple-200 rounded-xl hover:border-purple-400 bg-purple-50/50 transition-colors cursor-pointer'>
+          <Plus className='h-5 w-5 text-purple-500' />
+          <span className='text-gray-600 font-medium'>Add New Task</span>
+
+        </div>
+
+
       </div>
+
+      {/* MODEL  */}
+      <TaskModel
+        isOpen={showModel || !!selectedTask}
+        onclose={() => {
+          setShowModel(false);
+          setSelectedTask(null);
+        }}
+        taskToEdit={selectedTask}
+        onSave={handleSave}
+      />
     </div>
   )
 }
