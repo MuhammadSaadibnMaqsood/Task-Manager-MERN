@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { DEFAULT_TASK } from '../assets/dummy'
-import { PlusCircle, Save, X } from 'lucide-react'
+import { CheckCircle, PlusCircle, Save, SaveIcon, X } from 'lucide-react'
 
 const API_BASE = 'http://localhost:4000/api/task'
 
@@ -44,7 +44,7 @@ export const TaskModel = ({ isOpen, onClose, taskToEdit, onSave, onLogout }) => 
     }
   }, [])
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = useCallback(async (e) => {
     e.preventDefault()
     if (taskData.dueDate < today) {
       setError('Due date cannot be in the past')
@@ -56,7 +56,9 @@ export const TaskModel = ({ isOpen, onClose, taskToEdit, onSave, onLogout }) => 
 
     try {
       const isEdit = Boolean(taskData.id)
-      const url = isEdit ? `${API_BASE}/${taskData.id}` : API_BASE
+      const url = isEdit ? `${API_BASE}/${taskData.id}/gp` : `${API_BASE}/gp`
+
+
 
       const response = await fetch(url, {
         method: isEdit ? 'PUT' : 'POST',
@@ -70,15 +72,15 @@ export const TaskModel = ({ isOpen, onClose, taskToEdit, onSave, onLogout }) => 
         throw new Error(err.message || 'Failed to save task')
       }
 
-      const saved = await response.json()
-      onSave?.(saved)
+      const result = await response.json();
+      onSave?.(result.task);
       onClose()
     } catch (error) {
       setError(error.message || 'Unexpected error occurred')
     } finally {
       setLoading(false)
     }
-  }
+  }, [taskData, onClose, onSave, getHeader, onLogout, today])
 
   if (!isOpen) return null
 
@@ -156,6 +158,28 @@ export const TaskModel = ({ isOpen, onClose, taskToEdit, onSave, onLogout }) => 
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
+              <CheckCircle className='w-4 h-4 text-purple-500 inline-block mr-1' />
+              Status
+            </label>
+            <div className='flex gap-4'>
+              {[{ val: 'Yes', label: 'Completed' }, { val: 'No', label: 'In progress' }].map((item) => (
+                <label key={item.val} className='flex items-center'>
+                  <input
+                    type='radio'
+                    name='completed'
+                    value={item.val}
+                    checked={taskData.completed === item.val}
+                    onChange={handleChange}
+                    className='h-4 w-4 text-purple-500 focus:ring-purple-500 border-gray-300 rounded'
+                  />
+                  <span className='ml-2 text-sm text-gray-700'>{item.label}</span>
+                </label>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
               Due Date
             </label>
             <input
@@ -169,26 +193,13 @@ export const TaskModel = ({ isOpen, onClose, taskToEdit, onSave, onLogout }) => 
             />
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Completed?
-            </label>
-            <select
-              name="completed"
-              value={taskData.completed}
-              onChange={handleChange}
-              className="w-full border border-gray-200 rounded-lg p-2 focus:ring-2 focus:ring-purple-500"
-            >
-              <option value="No">No</option>
-              <option value="Yes">Yes</option>
-            </select>
-          </div>
-
           <button
             disabled={loading}
             className="w-full flex items-center justify-center gap-2 bg-purple-600 hover:bg-purple-700 text-white font-semibold p-2 rounded-lg transition disabled:opacity-50"
           >
-            {loading ? 'Saving...' : taskData.id ? 'Update Task' : 'Add Task'}
+            {loading ? 'Saving...' : taskData.id ? <><SaveIcon className='w-4 h-4 ' /> Update task  </> : <>
+              <PlusCircle className='w-4 h-4 ' /> Create task
+            </>}
           </button>
         </form>
       </div>

@@ -20,7 +20,7 @@ export const createTask = async (req, res) => {
             completed: completed === 'yes' || completed === true,
         });
 
-        await task.save();  // ✅ save to DB
+        await task.save();  
 
         res.status(201).json({ success: true, message: 'Task created successfully', task });
 

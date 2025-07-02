@@ -10,7 +10,7 @@ const userSchema = new mongoose.Schema({
         required: true,
         unique: true
     },
-    password: {  // fixed typo 'passwrod'
+    password: {  
         type: String,
         required: true
     }
