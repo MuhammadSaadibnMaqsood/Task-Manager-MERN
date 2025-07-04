@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { CheckCircle2, Calendar, BadgeCheck } from 'lucide-react'
 
-const API_BASE = 'http://localhost:4000/api/task/gp'
+// const API_BASE = 'http://localhost:4000/api/task/gp'
 
 const CompletePage = () => {
   const [tasks, setTasks] = useState([])
@@ -11,7 +11,7 @@ const CompletePage = () => {
   useEffect(() => {
     const fetchTasks = async () => {
       try {
-        const res = await fetch(API_BASE, {
+        const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/task/gp`, {
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${localStorage.getItem('token')}`
@@ -85,10 +85,10 @@ const CompletePage = () => {
               <div className="flex justify-between items-center mb-2">
                 <h2 className="text-lg font-semibold text-gray-800 line-through">{task.title}</h2>
                 <span className={`px-2 py-1 text-xs rounded-full ${task.priority === 'high'
-                    ? 'bg-red-100 text-red-600'
-                    : task.priority === 'medium'
-                      ? 'bg-yellow-100 text-yellow-600'
-                      : 'bg-green-100 text-green-600'
+                  ? 'bg-red-100 text-red-600'
+                  : task.priority === 'medium'
+                    ? 'bg-yellow-100 text-yellow-600'
+                    : 'bg-green-100 text-green-600'
                   }`}>
                   {task.priority?.toUpperCase()}
                 </span>

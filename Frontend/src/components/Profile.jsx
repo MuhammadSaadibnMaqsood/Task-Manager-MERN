@@ -5,7 +5,7 @@ import { ChevronLeft, Icon, Lock, LogOut, Save, Shield, UserCircle } from 'lucid
 import { data, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
-const API_URL = 'http://localhost:4000'
+// const API_URL = 'http://localhost:4000'
 const Profile = ({ user, setCurrentUser, onLogout }) => {
 
   const navigate = useNavigate();
@@ -17,7 +17,7 @@ const Profile = ({ user, setCurrentUser, onLogout }) => {
     const token = localStorage.getItem('token');
 
     if (!token) return
-    axios.get(`${API_URL}/api/user/me`, { headers: { Authorization: `Bearer ${token}` } }).then(({ data }) => {
+    axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/user/me`, { headers: { Authorization: `Bearer ${token}` } }).then(({ data }) => {
       if (data.success) {
         setProfile({ name: data.user.name, email: data.user.email });
 
@@ -31,7 +31,7 @@ const Profile = ({ user, setCurrentUser, onLogout }) => {
     try {
       const token = localStorage.getItem('token');
 
-      const { data } = await axios.put(`${API_URL}/api/user/profile`, { name: profile.name, email: profile.email },
+      const { data } = await axios.put(`${import.meta.env.VITE_BACKEND_URL}/api/user/profile`, { name: profile.name, email: profile.email },
         { headers: { Authorization: `Bearer ${token}` } }
       )
 
@@ -64,7 +64,7 @@ const Profile = ({ user, setCurrentUser, onLogout }) => {
 
       const token = localStorage.getItem('token');
 
-      const { data } = await axios.put(`${API_URL}/api/user/password`, { currentpassword: password.current, newPassword: password.new },
+      const { data } = await axios.put(`${import.meta.env.VITE_BACKEND_URL}/api/user/password`, { currentpassword: password.current, newPassword: password.new },
         { headers: { Authorization: `Bearer ${token}` } }
       )
 

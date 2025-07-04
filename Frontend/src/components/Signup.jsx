@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { BUTTONCLASSES, FIELDS, Inputwrapper } from '../assets/dummy'
 import axios from 'axios'
 
-const API_URL = 'http://localhost:4000'
+// const API_URL = 'http://localhost:4000'
 const INITIAL_FORM = { name: '', email: '', password: '' }
 
 const MESSAGE_SUCCESS = 'bg-green-100 text-green-700 px-4 py-2 rounded-md text-sm text-center'
@@ -20,7 +20,7 @@ export const Signup = ({ onSwitch }) => {
     setMessage({ text: '', type: '' })
 
     try {
-      const { data } = await axios.post(`${API_URL}/api/user/registor`, formData)
+      const { data } = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/user/registor`, formData)
       console.log('Signup successful:', data)
       setMessage({ text: 'Registration successful! You can now login.', type: 'success' })
       setFormData(INITIAL_FORM)

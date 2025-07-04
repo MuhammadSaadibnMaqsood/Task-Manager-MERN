@@ -10,7 +10,7 @@ import TaskItem from '../components/TaskItem'
 import axios from 'axios'
 import { TaskModel } from '../components/TaskModel'
 
-const API_BASE = 'http://localhost:4000/api/task'
+// const API_BASE = 'http://localhost:4000/api/task'
 
 const Dashboard = () => {
   const [showModel, setShowModel] = useState(false)
@@ -21,7 +21,7 @@ const Dashboard = () => {
 
   const fetchTasks = useCallback(async () => {
     try {
-      const res = await fetch('http://localhost:4000/api/task/gp', {
+      const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/task/gp`, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -36,17 +36,7 @@ const Dashboard = () => {
     }
   }, [])
 
-  // useEffect(() => {
-  //   const completedTask = tasks.filter(t => t.completed === true ||
-  //     t.completed?.toLowerCase?.() === 'yes' ||
-  //     t.completed === 1).length
 
-    
-
-  //   setcompleted(completedTask);
-
-
-  // },[])
 
   useEffect(() => {
     fetchTasks()
@@ -89,9 +79,9 @@ const Dashboard = () => {
   const handleSave = useCallback(async (taskData) => {
     try {
       if (taskData.id) {
-        await axios.put(`${API_BASE}/${taskData.id}/gp`, taskData)
+        await axios.put(`${import.meta.env.VITE_BACKEND_URL}/api/task/${taskData.id}/gp`, taskData)
       } else {
-        await axios.post(API_BASE, taskData)
+        await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/task`, taskData)
       }
 
       fetchTasks()

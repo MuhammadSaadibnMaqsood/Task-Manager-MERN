@@ -5,7 +5,7 @@ import { format, isToday } from 'date-fns'
 import axios from 'axios';
 import TaskModel from './TaskModel';
 
-const API_BASE = 'http://localhost:4000/api/task'
+// const API_BASE = 'http://localhost:4000/api/task'
 
 const TaskItem = ({ task, onReferesh, onLogout, showCompletedCheckBox = true }) => {
   const [showMenu, setShowMenu] = useState(false);
@@ -30,7 +30,7 @@ const TaskItem = ({ task, onReferesh, onLogout, showCompletedCheckBox = true }) 
   const handleComplete = async () => {
     const newStatus = isCompleted ? 'no' : 'yes';
     try {
-      await axios.put(`${API_BASE}/${task._id}/gp`, { completed: newStatus }, { headers: getHeader() });
+      await axios.put(`${import.meta.env.VITE_BACKEND_URL}/api/task/${task._id}/gp`, { completed: newStatus }, { headers: getHeader() });
       setIsComleted(!isCompleted);
       onReferesh?.();
     } catch (error) {
@@ -47,7 +47,7 @@ const TaskItem = ({ task, onReferesh, onLogout, showCompletedCheckBox = true }) 
 
   const handleDelete = async () => {
     try {
-      await axios.delete(`${API_BASE}/${task._id}/gp`, { headers: getHeader() });
+      await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/api/task/${task._id}/gp`, { headers: getHeader() });
       onReferesh?.();
     } catch (error) {
       console.error(error);
@@ -57,7 +57,7 @@ const TaskItem = ({ task, onReferesh, onLogout, showCompletedCheckBox = true }) 
 
   const handleSave = async (updatedTask) => {
     try {
-      await axios.put(`${API_BASE}/${task._id}/gp`, updatedTask, { headers: getHeader() });
+      await axios.put(`${import.meta.env.VITE_BACKEND_URL}/api/task/${task._id}/gp`, updatedTask, { headers: getHeader() });
       setShowEditModel(false);
       onReferesh?.();
     } catch (error) {

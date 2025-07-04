@@ -5,6 +5,7 @@ import { Outlet } from 'react-router-dom'
 import { Circle, TrendingUp, Zap, Clock } from 'lucide-react'
 import axios from 'axios'
 import StateCard from './StateCard'
+// import dotenv from 'dotenv'
 
 const Layout = ({ user, onLogout }) => {
   const [tasks, setTasks] = useState([])
@@ -18,7 +19,7 @@ const Layout = ({ user, onLogout }) => {
       const token = localStorage.getItem('token')
       if (!token) throw new Error('Token not found')
 
-      const { data } = await axios.get('http://localhost:4000/api/task/gp', {
+      const { data } = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/task/gp`, {
         headers: { Authorization: `Bearer ${token}` },
       })
 

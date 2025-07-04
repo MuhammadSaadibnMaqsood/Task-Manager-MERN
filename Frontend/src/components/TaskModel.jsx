@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { DEFAULT_TASK } from '../assets/dummy'
 import { CheckCircle, PlusCircle, Save, SaveIcon, X } from 'lucide-react'
 
-const API_BASE = 'http://localhost:4000/api/task'
+// const API_BASE = 'http://localhost:4000/api/task'
 
 export const TaskModel = ({ isOpen, onClose, taskToEdit, onSave, onLogout }) => {
   const [taskData, setTaskData] = useState(DEFAULT_TASK)
@@ -56,7 +56,7 @@ export const TaskModel = ({ isOpen, onClose, taskToEdit, onSave, onLogout }) => 
 
     try {
       const isEdit = Boolean(taskData.id)
-      const url = isEdit ? `${API_BASE}/${taskData.id}/gp` : `${API_BASE}/gp`
+      const url = isEdit ? `${import.meta.env.VITE_BACKEND_URL}/api/task/${taskData.id}/gp` : `${import.meta.env.VITE_BACKEND_URL}/api/task/gp`
 
 
 

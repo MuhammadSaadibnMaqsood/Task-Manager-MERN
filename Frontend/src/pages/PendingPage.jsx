@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Clock, CheckCircle2, Calendar } from 'lucide-react'
 
-const API_BASE = 'http://localhost:4000/api/task/gp'
+// const API_BASE = 'http://localhost:4000/api/task/gp'
 
 const PendingPage = () => {
   const [tasks, setTasks] = useState([])
@@ -11,7 +11,7 @@ const PendingPage = () => {
   useEffect(() => {
     const fetchTasks = async () => {
       try {
-        const res = await fetch(API_BASE, {
+        const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/task/gp`, {
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${localStorage.getItem('token')}`

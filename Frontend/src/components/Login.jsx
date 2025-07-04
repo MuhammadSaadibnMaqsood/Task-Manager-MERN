@@ -14,7 +14,7 @@ const Login = ({ onSubmit, onSwitch }) => {
   const [rememberMe, setRememberMe] = useState(false);
 
   const navigate = useNavigate();
-  const url = 'http://localhost:4000';
+  // const url = 'http://localhost:4000';
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -22,7 +22,7 @@ const Login = ({ onSubmit, onSwitch }) => {
     if (token) {
       (async () => {
         try {
-          const { data } = await axios.get(`${url}/api/user/me`, {
+          const { data } = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/user/me`, {
             headers: { Authorization: `Bearer ${token}` },
           });
           if (data.success) {
@@ -47,7 +47,7 @@ const Login = ({ onSubmit, onSwitch }) => {
     }
     setLoading(true);
     try {
-      const { data } = await axios.post(`${url}/api/user/login`, formData);
+      const { data } = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/user/login`, formData);
       if (!data.token) throw new Error(data.message || 'Login failed');
 
       localStorage.setItem('token', data.token);
