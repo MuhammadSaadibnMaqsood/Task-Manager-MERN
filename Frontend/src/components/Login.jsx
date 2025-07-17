@@ -90,13 +90,13 @@ const Login = ({ onSubmit, onSwitch }) => {
               placeholder={placeholder}
               value={formData[name]}
               onChange={(e) => setFormData({ ...formData, [name]: e.target.value })}
-              className="w-full bg-transparent focus:outline-none text-sm text-gray-700"
+              className="w-full bg-transparent cursor-pointer focus:outline-none text-sm text-gray-700"
             />
             {isPassword && (
               <button
                 type="button"
                 onClick={() => setShowPassword((prev) => !prev)}
-                className="ml-2 text-gray-500"
+                className="ml-2 text-gray-500 cursor-pointer"
               >
                 {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
               </button>
@@ -110,14 +110,14 @@ const Login = ({ onSubmit, onSwitch }) => {
             id="rememberMe"
             checked={rememberMe}
             onChange={() => setRememberMe(!rememberMe)}
-            className="h-4 w-4 text-purple-500 focus:ring-purple-400 border-gray-300 rounded"
+            className="h-4 w-4 text-purple-500 cursor-pointer focus:ring-purple-400 border-gray-300 rounded"
           />
           <label htmlFor="rememberMe" className="ml-2 block text-sm text-gray-700">
             Remember Me
           </label>
         </div>
 
-        <button type="submit" className={BUTTONCLASSES} disabled={loading}>
+        <button type="submit" className={`${BUTTONCLASSES} cursor-pointer`} disabled={loading}>
           {loading ? 'Logging in...' : <><LogIn className="w-4 h-4 inline-block mr-1" /> Login</>}
         </button>
 
@@ -125,7 +125,7 @@ const Login = ({ onSubmit, onSwitch }) => {
           Don't have an account?{' '}
           <button
             type="button"
-            className="text-purple-600 hover:text-purple-700 hover:underline font-medium transition-colors"
+            className="text-purple-600 hover:text-purple-700 cursor-pointer hover:underline font-medium transition-colors"
             onClick={handleSwitchMode}
           >
             Signup

@@ -67,7 +67,7 @@ export const Signup = ({ onSwitch }) => {
           </div>
         ))}
 
-        <button type='submit' className={BUTTONCLASSES + ' w-full flex justify-center items-center'} disabled={loading}>
+        <button type='submit' className={BUTTONCLASSES + ' w-full flex justify-center items-center  cursor-pointer'} disabled={loading}>
           {loading ? 'Signing up...' : (
             <>
               <UserPlus className='w-4 h-4 mr-2' /> Sign Up
@@ -76,11 +76,11 @@ export const Signup = ({ onSwitch }) => {
         </button>
       </form>
 
-      <p className='text-center text-sm text-gray-600 mt-6'>
+      <p className='text-center text-sm text-gray-600 mt-6  cursor-pointer'>
         Already have an account?{' '}
         <button
           onClick={onSwitch}
-          className='text-purple-600 hover:underline font-medium'
+          className='text-purple-600 hover:underline font-mediu cursor-pointer'
         >
           Login
         </button>
