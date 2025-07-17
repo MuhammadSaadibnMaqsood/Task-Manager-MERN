@@ -107,7 +107,7 @@ const Dashboard = () => {
           </p>
         </div>
 
-        <button onClick={() => setShowModel(true)} className={ADD_BUTTON}>
+        <button onClick={() => setShowModel(true)} className={`${ADD_BUTTON} cursor-pointer`}>
           Add New Task
         </button>
       </div>
@@ -154,7 +154,7 @@ const Dashboard = () => {
               <button
                 key={opt}
                 onClick={() => setFilter(opt)}
-                className={`${TAB_BASE} ${filter === opt ? TAB_ACTIVE : TAB_INACTIVE}`}
+                className={`${TAB_BASE} ${filter === opt ? TAB_ACTIVE : TAB_INACTIVE} cursor-pointer`}
               >
                 {opt.charAt(0).toUpperCase() + opt.slice(1)}
               </button>
@@ -175,7 +175,7 @@ const Dashboard = () => {
               <p className='text-sm text-gray-500 mb-4'>
                 {filter === 'all' ? 'Create your first task to get started' : 'No task matches this filter'}
               </p>
-              <button onClick={() => setShowModel(true)} className={EMPTY_STATE.btn}>
+              <button onClick={() => setShowModel(true)} className={`${EMPTY_STATE.btn} cursor-pointer`}>
                 Add new task
               </button>
             </div>
